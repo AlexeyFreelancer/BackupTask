@@ -18,23 +18,17 @@ class UploadCommand
 			$class = '\\BackupTask\\Command\\Upload\\' . ucfirst($name) . 'Upload';
 			$upload = new $class($options);
 			
-			$stat = array(
-				'started_at' => time(),
-				'path'       => $options['path'],
-			);
+			$this->stats[$name] = array('started_at' => time());
 			
 			// upload backup
 			try {
 				$upload->upload($file, $options['path'], $prefix, $options['max_count']);
 			} catch (\Exception $e) {
-				$stat['error'] = $e->getMessage();
+				$this->stats[$name]['error'] = $e->getMessage();
 			}
 			
-			$stat['deleted_files'] = $upload->getDeletedFiles();
-			$stat['finished_at'] = time();
-			
-			$this->stats[$name] = $stat;
-			
+			$this->stats['deleted_files'] = $upload->getDeletedFiles();
+			$this->stats[$name]['finished_at'] = time();
 		}
 		
 		// delete tmp file after upload

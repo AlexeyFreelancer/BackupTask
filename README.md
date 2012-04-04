@@ -20,7 +20,7 @@ Create directories and databases backup, upload it to local directory or to ftp 
     
 Change settings in config.php 
 
-### Usage
+### Create script
 
 Create new file backup.php with following code
 
