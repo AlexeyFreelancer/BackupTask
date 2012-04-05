@@ -3,7 +3,9 @@
 // register autoloader
 // git clone git://github.com/symfony/ClassLoader.git
 require_once 'ClassLoader/UniversalClassLoader.php';
+
 use Symfony\Component\ClassLoader\UniversalClassLoader;
+
 $loader = new UniversalClassLoader();
 $loader->register();
 $loader->registerNamespace('BackupTask', '.');
