@@ -88,8 +88,8 @@ class BackupCommand
 		$tmpDir = sys_get_temp_dir();
 		
 		// create tar with all files
-		$path = $tmpDir . DIRECTORY_SEPARATOR . $this->commonOptions['backup_filename_prefix'] . $this->commonOptions['backup_filename'] . '_'. date('Ymd') . '.tar';
-		$cmd = strtr('@tar -cf @output -C @dir @files ', array(
+		$path = $tmpDir . DIRECTORY_SEPARATOR . $this->commonOptions['backup_filename_prefix'] . $this->commonOptions['backup_filename'] . '_'. date('Ymd') . '.tar.gz';
+		$cmd = strtr('@tar -czf @output -C @dir @files ', array(
 			'@tar' => $this->commonOptions['tar_cmd'],
 			'@output' => $path,
 			'@dir' => dirname($backupFiles[0]),
@@ -98,19 +98,12 @@ class BackupCommand
 		
 		\exec($cmd);
 		
-		// created tar.gz
-		$cmd = strtr('@gzip @path ', array(
-			'@gzip' => $this->commonOptions['gzip_cmd'],
-			'@path' => $path,
-		));
-		\exec($cmd);
-		
 		// delete tmp files
 		foreach ($backupFiles as $backupFile) {
 			unlink($backupFile);
 		}
 		
-		return $path . '.gz';
+		return $path;
 	}
 	
 	/**
@@ -141,7 +134,7 @@ class BackupCommand
 	 */
 	private function checkConfiguration()
 	{
-		$requiredOptions = array('tar_cmd', 'gzip_cmd', 'backup_filename');
+		$requiredOptions = array('tar_cmd', 'backup_filename');
 		
 		foreach ($requiredOptions as $requiredOption) {
 			if (empty($this->commonOptions[$requiredOption])) {

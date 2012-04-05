@@ -10,7 +10,6 @@ return array(
 	// common options
 	'common' => array(
 		'tar_cmd' => '/bin/tar',
-		'gzip_cmd' => '/bin/gzip',
 
 		'backup_filename_prefix' => $prefix, 
 		'backup_filename' => 'backupname',
