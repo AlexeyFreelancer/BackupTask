@@ -28,11 +28,27 @@ class BackupTask
         $backupArchive = $backup->run();
         $stats['backup'] = $backup->getStats();
 
+        foreach ($stats['backup'] as $backupStat) {
+            if (!empty($backupStat['error'])) {
+                $stats['count_errors']++;
+            }
+        }
+
+        if (!empty($stats['backup']['error'])) {
+            $stats['count_errors']++;
+        }
+
         // upload backup
         if (!empty($this->options['upload'])) {
             $upload = new UploadCommand($this->options['upload']);
             $upload->run($backupArchive, $this->options['common']['backup_filename_prefix']);
             $stats['upload'] = $upload->getStats();
+
+            foreach ($stats['upload'] as $uploadStat) {
+                if (!empty($uploadStat['error'])) {
+                    $stats['count_errors']++;
+                }
+            }
         }
 
         $stats['finished_at'] = time();
