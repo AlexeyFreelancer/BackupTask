@@ -26,13 +26,13 @@ Create new file backup.php with following code
 
     <?php
 
-    require_once 'ClassLoader/UniversalClassLoader.php';
+    require_once 'ClassLoader/ClassLoader.php';
 
-    use Symfony\Component\ClassLoader\UniversalClassLoader;
+    use Symfony\Component\ClassLoader\ClassLoader;
 
-    $loader = new UniversalClassLoader();
+    $loader = new ClassLoader();
     $loader->register();
-    $loader->registerNamespace('BackupTask', '.');
+    $loader->addPrefix('BackupTask', '.');
 
     $config = include 'config.php';
     $backupTask = new BackupTask\BackupTask($config);
