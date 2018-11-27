@@ -4,7 +4,7 @@ Create directories and databases backup, upload it to local directory or to ftp 
 
 ## Requirements
 
- * PHP 5.3
+ * PHP 5.3-7.2
  * Unix OS
  
 ## Installation
@@ -32,7 +32,7 @@ Create new file backup.php with following code
 
     $loader = new ClassLoader();
     $loader->register();
-    $loader->addPrefix('BackupTask', '.');
+    $loader->addPrefix('BackupTask', __DIR__);
 
     $config = include 'config.php';
     $backupTask = new BackupTask\BackupTask($config);
